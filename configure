@@ -1,0 +1,11 @@
+--prefix=/usr/share/nginx --user=httpd --group=httpd --with-select_module --with-poll_module \
+--with-threads --with-file-aio --with-ipv6 --with-http_ssl_module \
+--with-http_v2_module  --sbin-path=/usr/bin/nginx --pid-path=/run/nginx.pid \
+--lock-path=/run/lock/nginx.lock --http-log-path=/var/log/nginx/access.log \
+--conf-path=/etc/nginx/nginx.conf \
+--http-uwsgi-temp-path=/var/lib/nginx/uwsgi --error-log-path=stderr \
+--http-client-body-temp-path=/var/lib/nginx/client-body \
+--http-proxy-temp-path=/var/lib/nginx/proxy \
+--http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+--http-scgi-temp-path=/var/lib/nginx/scgi \
+--http-uwsgi-temp-path=/var/lib/nginx/uwsgi

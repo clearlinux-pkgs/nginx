@@ -4,7 +4,7 @@
 #
 Name     : nginx
 Version  : 1.9.5
-Release  : 9
+Release  : 10
 URL      : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source0  : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source1  : nginx.service

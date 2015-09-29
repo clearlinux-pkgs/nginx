@@ -3,7 +3,7 @@
 d /etc/openldap - root root - -
 L /etc/openldap/schema - - - - /usr/share/openldap/schema/
 
-d /var/log/nginx 750 httpd log -
+d /var/log/nginx 750 httpd httpd -
 d /var/lib/nginx 700 httpd httpd -
 d /var/lib/nginx/uwsgi 700 httpd httpd -
 d /var/lib/nginx/client-body 700 httpd httpd -

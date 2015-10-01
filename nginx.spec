@@ -4,7 +4,7 @@
 #
 Name     : nginx
 Version  : 1.9.5
-Release  : 11
+Release  : 12
 URL      : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source0  : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source1  : nginx.service
@@ -19,6 +19,7 @@ BuildRequires : openssl-dev
 BuildRequires : pcre-dev
 BuildRequires : zlib-dev
 Patch1: build.patch
+Patch2: stateless.patch
 
 %description
 Documentation is available at http://nginx.org
@@ -52,6 +53,7 @@ data components for the nginx package.
 %prep
 %setup -q -n nginx-1.9.5
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure --disable-static --prefix=/usr/share/nginx \

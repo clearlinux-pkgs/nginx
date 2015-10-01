@@ -4,7 +4,7 @@
 #
 Name     : nginx
 Version  : 1.9.5
-Release  : 10
+Release  : 11
 URL      : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source0  : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source1  : nginx.service
@@ -54,16 +54,27 @@ data components for the nginx package.
 %patch1 -p1
 
 %build
-%configure --disable-static --prefix=/usr/share/nginx --user=httpd --group=httpd --with-select_module --with-poll_module \ \
---with-threads --with-file-aio --with-ipv6 --with-http_ssl_module \ \
---with-http_v2_module  --sbin-path=/usr/bin/nginx --pid-path=/run/nginx.pid \ \
---lock-path=/run/lock/nginx.lock --http-log-path=/var/log/nginx/access.log \ \
---conf-path=/etc/nginx/nginx.conf \ \
---http-uwsgi-temp-path=/var/lib/nginx/uwsgi --error-log-path=stderr \ \
---http-client-body-temp-path=/var/lib/nginx/client-body \ \
---http-proxy-temp-path=/var/lib/nginx/proxy \ \
---http-fastcgi-temp-path=/var/lib/nginx/fastcgi \ \
---http-scgi-temp-path=/var/lib/nginx/scgi \ \
+%configure --disable-static --prefix=/usr/share/nginx \
+--user=httpd \
+--group=httpd \
+--with-select_module \
+--with-poll_module \
+--with-threads \
+--with-file-aio \
+--with-ipv6 \
+--with-http_ssl_module \
+--with-http_v2_module \
+--sbin-path=/usr/bin/nginx \
+--pid-path=/run/nginx.pid \
+--lock-path=/run/lock/nginx.lock \
+--http-log-path=syslog:server=unix:/dev/log \
+--conf-path=/usr/share/nginx/conf/nginx.conf \
+--http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+--error-log-path=stderr \
+--http-client-body-temp-path=/var/lib/nginx/client-body \
+--http-proxy-temp-path=/var/lib/nginx/proxy \
+--http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+--http-scgi-temp-path=/var/lib/nginx/scgi \
 --http-uwsgi-temp-path=/var/lib/nginx/uwsgi
 make V=1  %{?_smp_mflags}
 

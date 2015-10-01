@@ -6,10 +6,11 @@ After=network.target
 Type=forking
 PIDFile=/run/nginx.pid
 PrivateDevices=yes
-SyslogLevel=err
 
-ExecStart=/usr/bin/nginx -g 'pid /run/nginx.pid; error_log stderr;'
-ExecReload=/usr/bin/kill -HUP $MAINPID
+ExecStartPre=/usr/bin/nginx -t
+ExecStart=/usr/bin/nginx
+ExecReload=/usr/bin/nginx -s reload
+ExecStop=/usr/bin/nginx -s stop
 KillSignal=SIGQUIT
 KillMode=mixed
 

@@ -4,7 +4,7 @@
 #
 Name     : nginx
 Version  : 1.9.5
-Release  : 12
+Release  : 13
 URL      : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source0  : http://nginx.org/download/nginx-1.9.5.tar.gz
 Source1  : nginx.service
@@ -77,7 +77,8 @@ data components for the nginx package.
 --http-proxy-temp-path=/var/lib/nginx/proxy \
 --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
 --http-scgi-temp-path=/var/lib/nginx/scgi \
---http-uwsgi-temp-path=/var/lib/nginx/uwsgi
+--http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
+--with-debug
 make V=1  %{?_smp_mflags}
 
 %install

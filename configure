@@ -20,3 +20,4 @@
 --http-fastcgi-temp-path=/var/lib/nginx/fastcgi
 --http-scgi-temp-path=/var/lib/nginx/scgi
 --http-uwsgi-temp-path=/var/lib/nginx/uwsgi
+--with-debug

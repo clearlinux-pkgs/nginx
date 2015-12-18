@@ -1,5 +1,5 @@
 PKG_NAME := nginx
-URL := http://nginx.org/download/nginx-1.9.7.tar.gz
+URL := http://nginx.org/download/nginx-1.9.9.tar.gz
 ARCHIVES :=
 
 include ../common/Makefile.common

@@ -1,4 +1,9 @@
 
+Changes with nginx 1.10.0                                        26 Apr 2016
+
+    *) 1.10.x stable branch.
+
+
 Changes with nginx 1.9.15                                        19 Apr 2016
 
     *) Bugfix: "recv() failed" errors might occur when using HHVM as a

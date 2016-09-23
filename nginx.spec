@@ -4,7 +4,7 @@
 #
 Name     : nginx
 Version  : 1.11.4
-Release  : 30
+Release  : 31
 URL      : http://nginx.org/download/nginx-1.11.4.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.4.tar.gz
 Source1  : nginx.service

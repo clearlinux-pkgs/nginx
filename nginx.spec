@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.9
-Release  : 35
+Release  : 36
 URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source1  : nginx.service
@@ -60,7 +60,7 @@ data components for the nginx package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1485361566
+export SOURCE_DATE_EPOCH=1485374424
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,13 +87,17 @@ export SOURCE_DATE_EPOCH=1485361566
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1485361566
+export SOURCE_DATE_EPOCH=1485374424
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
+## make_install_append content
+rm -f %{buildroot}/usr/share/nginx/conf/*.default
+install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -110,19 +114,14 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 %files data
 %defattr(-,root,root,-)
 /usr/share/nginx/conf/fastcgi.conf
-/usr/share/nginx/conf/fastcgi.conf.default
 /usr/share/nginx/conf/fastcgi_params
-/usr/share/nginx/conf/fastcgi_params.default
 /usr/share/nginx/conf/koi-utf
 /usr/share/nginx/conf/koi-win
 /usr/share/nginx/conf/mime.types
-/usr/share/nginx/conf/mime.types.default
 /usr/share/nginx/conf/nginx.conf
-/usr/share/nginx/conf/nginx.conf.default
 /usr/share/nginx/conf/scgi_params
-/usr/share/nginx/conf/scgi_params.default
+/usr/share/nginx/conf/server.conf.example
 /usr/share/nginx/conf/uwsgi_params
-/usr/share/nginx/conf/uwsgi_params.default
 /usr/share/nginx/conf/win-utf
 /usr/share/nginx/html/50x.html
 /usr/share/nginx/html/index.html

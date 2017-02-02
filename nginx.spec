@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.9
-Release  : 36
+Release  : 37
 URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source1  : nginx.service

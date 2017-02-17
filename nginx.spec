@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.9
-Release  : 38
+Release  : 39
 URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source1  : nginx.service
@@ -60,7 +60,11 @@ data components for the nginx package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1485374424
+export SOURCE_DATE_EPOCH=1487349886
+export CFLAGS="$CFLAGS -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -fstack-protector-strong "
+export FFLAGS="$CFLAGS -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +91,7 @@ export SOURCE_DATE_EPOCH=1485374424
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1485374424
+export SOURCE_DATE_EPOCH=1487349886
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

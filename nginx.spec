@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.11.9
-Release  : 39
-URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
-Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
+Version  : 1.11.12
+Release  : 40
+URL      : http://nginx.org/download/nginx-1.11.12.tar.gz
+Source0  : http://nginx.org/download/nginx-1.11.12.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
-Source99 : http://nginx.org/download/nginx-1.11.9.tar.gz.asc
+Source99 : http://nginx.org/download/nginx-1.11.12.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -54,13 +54,13 @@ data components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.11.9
+%setup -q -n nginx-1.11.12
 %patch1 -p1
 %patch2 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1487349886
+export SOURCE_DATE_EPOCH=1490621192
 export CFLAGS="$CFLAGS -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fstack-protector-strong "
@@ -91,7 +91,7 @@ export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1487349886
+export SOURCE_DATE_EPOCH=1490621192
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

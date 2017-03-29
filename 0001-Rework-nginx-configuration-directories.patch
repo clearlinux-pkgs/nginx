@@ -1,8 +1,28 @@
-Index: nginx-1.9.5/conf/nginx.conf
-===================================================================
---- nginx-1.9.5.orig/conf/nginx.conf
-+++ nginx-1.9.5/conf/nginx.conf
-@@ -1,117 +1,21 @@
+From b805e4427147a68cd691b9bcceb8a0e21f1ed5d3 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Wed, 29 Mar 2017 22:40:11 +0000
+Subject: [PATCH] Rework nginx configuration directories
+
+Instead of having configuration values that can't be changed in the
+stateless configuraiton file, have the stateless configuration file only
+include a single file, /etc/nginx/nginx.conf, that will then be
+responsible for fully setting the rest of the configuration options.
+
+To assist users, add an example nginx.conf file that contains reasonable
+default values.
+---
+ conf/nginx.conf          | 118 +----------------------------------------------
+ conf/nginx.conf.example  |  19 ++++++++
+ conf/server.conf.example |  65 ++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 117 deletions(-)
+ create mode 100644 conf/nginx.conf.example
+ create mode 100644 conf/server.conf.example
+
+diff --git a/conf/nginx.conf b/conf/nginx.conf
+index 29bc085..d34e64f 100644
+--- a/conf/nginx.conf
++++ b/conf/nginx.conf
+@@ -1,117 +1 @@
 -
 -#user  nobody;
 -worker_processes  1;
@@ -13,17 +33,16 @@ Index: nginx-1.9.5/conf/nginx.conf
 -
 -#pid        logs/nginx.pid;
 -
-+worker_processes  4;
- 
- events {
-     worker_connections  1024;
- }
- 
 -
- http {
-     include       mime.types;
-     default_type  application/octet-stream;
- 
+-events {
+-    worker_connections  1024;
+-}
+-
+-
+-http {
+-    include       mime.types;
+-    default_type  application/octet-stream;
+-
 -    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
 -    #                  '$status $body_bytes_sent "$http_referer" '
 -    #                  '"$http_user_agent" "$http_x_forwarded_for"';
@@ -119,6 +138,25 @@ Index: nginx-1.9.5/conf/nginx.conf
 -    #        index  index.html index.htm;
 -    #    }
 -    #}
+-
+-}
++include /etc/nginx/nginx.conf;
+diff --git a/conf/nginx.conf.example b/conf/nginx.conf.example
+new file mode 100644
+index 0000000..3465632
+--- /dev/null
++++ b/conf/nginx.conf.example
+@@ -0,0 +1,19 @@
++worker_processes  4;
++
++events {
++    worker_connections  1024;
++}
++
++http {
++    include       mime.types;
++    default_type  application/octet-stream;
++
 +    sendfile      on;
 +    aio           on;
 +    tcp_nopush    on;
@@ -126,12 +164,13 @@ Index: nginx-1.9.5/conf/nginx.conf
 +
 +    access_log    syslog:server=unix:/dev/log;
 +
-+    include /etc/nginx/*.conf;
-+    include /usr/share/nginx/conf.d/*.conf;
- 
- }
---- a/conf/server.conf.example	1969-12-31 16:00:00.000000000 -0800
-+++ b/conf/server.conf.example	2017-01-25 11:49:57.873904410 -0800
++    include /etc/nginx/conf.d/*.conf;
++}
+diff --git a/conf/server.conf.example b/conf/server.conf.example
+new file mode 100644
+index 0000000..bece759
+--- /dev/null
++++ b/conf/server.conf.example
 @@ -0,0 +1,65 @@
 +server {
 +    listen       80;
@@ -188,7 +227,7 @@ Index: nginx-1.9.5/conf/nginx.conf
 +    #    fastcgi_pass   unix:/run/php-fpm.sock;
 +    #    fastcgi_index  index.php;
 +    #    fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html/$fastcgi_script_name;
-+    #    include        fastcgi_params;
++    #    include        /usr/share/nginx/conf/fastcgi_params;
 +    #}
 +
 +    # deny access to .htaccess files, if Apache's document root
@@ -198,3 +237,6 @@ Index: nginx-1.9.5/conf/nginx.conf
 +        deny  all;
 +    }
 +}
+-- 
+2.12.2
+

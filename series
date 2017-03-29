@@ -1,2 +1,2 @@
 build.patch
-stateless.patch
+0001-Rework-nginx-configuration-directories.patch

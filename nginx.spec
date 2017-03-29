@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.12
-Release  : 43
+Release  : 44
 URL      : http://nginx.org/download/nginx-1.11.12.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.12.tar.gz
 Source1  : nginx.service
@@ -22,7 +22,7 @@ BuildRequires : openssl-dev
 BuildRequires : pcre-dev
 BuildRequires : zlib-dev
 Patch1: build.patch
-Patch2: stateless.patch
+Patch2: 0001-Rework-nginx-configuration-directories.patch
 
 %description
 Documentation is available at http://nginx.org
@@ -60,7 +60,7 @@ data components for the nginx package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490824103
+export SOURCE_DATE_EPOCH=1490827650
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +87,7 @@ export SOURCE_DATE_EPOCH=1490824103
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1490824103
+export SOURCE_DATE_EPOCH=1490827650
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -97,8 +97,6 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
-mkdir -p %{buildroot}/usr/share/nginx/conf.d
-install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf.d/server.conf
 ## make_install_append end
 
 %files
@@ -115,7 +113,6 @@ install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf.d/serv
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/nginx/conf.d/server.conf
 /usr/share/nginx/conf/fastcgi.conf
 /usr/share/nginx/conf/fastcgi_params
 /usr/share/nginx/conf/koi-utf

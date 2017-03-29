@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.11.12
-Release  : 40
-URL      : http://nginx.org/download/nginx-1.11.12.tar.gz
-Source0  : http://nginx.org/download/nginx-1.11.12.tar.gz
+Version  : 1.11.9
+Release  : 41
+URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
+Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
-Source99 : http://nginx.org/download/nginx-1.11.12.tar.gz.asc
+Source99 : http://nginx.org/download/nginx-1.11.9.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -54,17 +54,13 @@ data components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.11.12
+%setup -q -n nginx-1.11.9
 %patch1 -p1
 %patch2 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490621192
-export CFLAGS="$CFLAGS -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1490820221
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -91,7 +87,7 @@ export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1490621192
+export SOURCE_DATE_EPOCH=1490820221
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -101,6 +97,8 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
+mkdir -p %{buildroot}/usr/share/nginx/conf.d
+install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf.d/server.conf
 ## make_install_append end
 
 %files
@@ -117,6 +115,7 @@ install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/nginx/conf.d/server.conf
 /usr/share/nginx/conf/fastcgi.conf
 /usr/share/nginx/conf/fastcgi_params
 /usr/share/nginx/conf/koi-utf

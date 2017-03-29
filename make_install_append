@@ -2,3 +2,6 @@
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 # template configuration
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
+mkdir -p %{buildroot}/usr/share/nginx/conf.d
+install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf.d/server.conf
+

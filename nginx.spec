@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.9
-Release  : 41
+Release  : 42
 URL      : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.9.tar.gz
 Source1  : nginx.service
@@ -60,7 +60,7 @@ data components for the nginx package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490820221
+export SOURCE_DATE_EPOCH=1490822233
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +87,7 @@ export SOURCE_DATE_EPOCH=1490820221
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1490820221
+export SOURCE_DATE_EPOCH=1490822233
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

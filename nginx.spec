@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.11.12
-Release  : 44
+Release  : 45
 URL      : http://nginx.org/download/nginx-1.11.12.tar.gz
 Source0  : http://nginx.org/download/nginx-1.11.12.tar.gz
 Source1  : nginx.service
@@ -60,7 +60,7 @@ data components for the nginx package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490827650
+export SOURCE_DATE_EPOCH=1491009053
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +87,7 @@ export SOURCE_DATE_EPOCH=1490827650
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1490827650
+export SOURCE_DATE_EPOCH=1491009053
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -97,6 +97,7 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
+install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
 ## make_install_append end
 
 %files
@@ -119,6 +120,7 @@ install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 /usr/share/nginx/conf/koi-win
 /usr/share/nginx/conf/mime.types
 /usr/share/nginx/conf/nginx.conf
+/usr/share/nginx/conf/nginx.conf.example
 /usr/share/nginx/conf/scgi_params
 /usr/share/nginx/conf/server.conf.example
 /usr/share/nginx/conf/uwsgi_params

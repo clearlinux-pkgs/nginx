@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.11.13
-Release  : 46
-URL      : http://nginx.org/download/nginx-1.11.13.tar.gz
-Source0  : http://nginx.org/download/nginx-1.11.13.tar.gz
+Version  : 1.12.0
+Release  : 47
+URL      : https://nginx.org/download/nginx-1.12.0.tar.gz
+Source0  : https://nginx.org/download/nginx-1.12.0.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
-Source99 : http://nginx.org/download/nginx-1.11.13.tar.gz.asc
+Source99 : https://nginx.org/download/nginx-1.12.0.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -54,13 +54,13 @@ data components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.11.13
+%setup -q -n nginx-1.12.0
 %patch1 -p1
 %patch2 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491788232
+export SOURCE_DATE_EPOCH=1492020641
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +87,7 @@ export SOURCE_DATE_EPOCH=1491788232
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1491788232
+export SOURCE_DATE_EPOCH=1492020641
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

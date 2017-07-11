@@ -1,0 +1,17 @@
+Configure miss: sys/filio.h 
+Configure miss: /dev/poll 
+Configure miss: kqueue 
+Configure miss: crypt() 
+Configure miss: F_READAHEAD 
+Configure miss: F_NOCACHE 
+Configure miss: directio() 
+Configure miss: dlopen() 
+Configure miss: SO_SETFIB 
+Configure miss: SO_ACCEPTFILTER 
+Configure miss: SO_BINDANY 
+Configure miss: IP_BINDANY 
+Configure miss: IP_RECVDSTADDR 
+Configure miss: kqueue AIO support 
+Configure miss: setproctitle() 
+Configure miss: POSIX semaphores 
+Configure miss: struct dirent.d_namlen 

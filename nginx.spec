@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.12.1
-Release  : 49
+Release  : 50
 URL      : https://nginx.org/download/nginx-1.12.1.tar.gz
 Source0  : https://nginx.org/download/nginx-1.12.1.tar.gz
 Source1  : nginx.service
@@ -63,7 +63,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1499792295
+export SOURCE_DATE_EPOCH=1499795469
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -90,7 +90,7 @@ export SOURCE_DATE_EPOCH=1499792295
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1499792295
+export SOURCE_DATE_EPOCH=1499795469
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

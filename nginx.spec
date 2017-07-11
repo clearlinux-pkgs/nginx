@@ -5,13 +5,13 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.12.0
-Release  : 48
-URL      : https://nginx.org/download/nginx-1.12.0.tar.gz
-Source0  : https://nginx.org/download/nginx-1.12.0.tar.gz
+Version  : 1.12.1
+Release  : 49
+URL      : https://nginx.org/download/nginx-1.12.1.tar.gz
+Source0  : https://nginx.org/download/nginx-1.12.1.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
-Source99 : https://nginx.org/download/nginx-1.12.0.tar.gz.asc
+Source99 : https://nginx.org/download/nginx-1.12.1.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -54,13 +54,16 @@ data components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.12.0
+%setup -q -n nginx-1.12.1
 %patch1 -p1
 %patch2 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492020641
+export SOURCE_DATE_EPOCH=1499792295
 %configure --disable-static --prefix=/usr/share/nginx \
 --user=httpd \
 --group=httpd \
@@ -87,7 +90,7 @@ export SOURCE_DATE_EPOCH=1492020641
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1492020641
+export SOURCE_DATE_EPOCH=1499792295
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

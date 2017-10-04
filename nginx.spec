@@ -6,11 +6,12 @@
 #
 Name     : nginx
 Version  : 1.12.1
-Release  : 50
+Release  : 54
 URL      : https://nginx.org/download/nginx-1.12.1.tar.gz
 Source0  : https://nginx.org/download/nginx-1.12.1.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
+Source3  : webroot-setup.service
 Source99 : https://nginx.org/download/nginx-1.12.1.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -63,44 +64,46 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1499795469
-%configure --disable-static --prefix=/usr/share/nginx \
---user=httpd \
---group=httpd \
---with-select_module \
---with-poll_module \
---with-threads \
---with-file-aio \
---with-ipv6 \
---with-http_ssl_module \
---with-http_v2_module \
+export SOURCE_DATE_EPOCH=1507145157
+%configure --disable-static --prefix=/var/www \
+--conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
 --pid-path=/run/nginx.pid \
 --lock-path=/run/lock/nginx.lock \
 --http-log-path=syslog:server=unix:/dev/log \
---conf-path=/usr/share/nginx/conf/nginx.conf \
---http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
---error-log-path=stderr \
 --http-client-body-temp-path=/var/lib/nginx/client-body \
---http-proxy-temp-path=/var/lib/nginx/proxy \
 --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
+--http-proxy-temp-path=/var/lib/nginx/proxy \
 --http-scgi-temp-path=/var/lib/nginx/scgi \
 --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
---with-debug
+--user=httpd \
+--group=httpd \
+--with-threads \
+--with-ipv6 \
+--with-debug \
+--error-log-path=stderr \
+--with-file-aio \
+--with-http_ssl_module \
+--with-http_v2_module \
+--with-poll_module \
+--with-select_module
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1499795469
+export SOURCE_DATE_EPOCH=1507145157
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx.service
+install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/systemd/system/webroot-setup.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
+mkdir -p %{buildroot}/usr/share/nginx/html
+mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/
 ## make_install_append end
 
 %files
@@ -113,6 +116,7 @@ install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
 %files config
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/nginx.service
+/usr/lib/systemd/system/webroot-setup.service
 /usr/lib/tmpfiles.d/nginx.conf
 
 %files data

@@ -1,2 +1,4 @@
 # This file contains the output files that need %exclude. Full path
 # names, one per line.
+/var/www/html/50x.html
+/var/www/html/index.html

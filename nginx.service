@@ -2,6 +2,8 @@
 Description=A high performance web server and a reverse proxy server
 After=network-online.target
 Wants=network-online.target
+After=webroot-setup.service
+Requires=webroot-setup.service
 
 [Service]
 Type=forking

@@ -3,3 +3,6 @@ rm -f %{buildroot}/usr/share/nginx/conf/*.default
 # template configuration
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
+# move these to a "template" location
+mkdir -p %{buildroot}/usr/share/nginx/html
+mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/

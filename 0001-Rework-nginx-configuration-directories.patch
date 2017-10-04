@@ -1,4 +1,4 @@
-From b805e4427147a68cd691b9bcceb8a0e21f1ed5d3 Mon Sep 17 00:00:00 2001
+From 21f68ede41d5959bedb94e66fdd378fb053c5ac0 Mon Sep 17 00:00:00 2001
 From: William Douglas <william.douglas@intel.com>
 Date: Wed, 29 Mar 2017 22:40:11 +0000
 Subject: [PATCH] Rework nginx configuration directories
@@ -10,11 +10,18 @@ responsible for fully setting the rest of the configuration options.
 
 To assist users, add an example nginx.conf file that contains reasonable
 default values.
+
+We modify the default HTML pages (index.html) and install them as
+template webroot files using a one-time setup service. We make them
+generic so they can be used for all sorts of http servers that are
+in the same bundle.
 ---
  conf/nginx.conf          | 118 +----------------------------------------------
  conf/nginx.conf.example  |  19 ++++++++
  conf/server.conf.example |  65 ++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+), 117 deletions(-)
+ html/50x.html            |  41 +++++++++-------
+ html/index.html          |  45 +++++++++---------
+ 5 files changed, 133 insertions(+), 155 deletions(-)
  create mode 100644 conf/nginx.conf.example
  create mode 100644 conf/server.conf.example
 
@@ -237,6 +244,110 @@ index 0000000..bece759
 +        deny  all;
 +    }
 +}
+diff --git a/html/50x.html b/html/50x.html
+index f60f5e7..b0c2489 100644
+--- a/html/50x.html
++++ b/html/50x.html
+@@ -1,21 +1,28 @@
++</body>
++</html>
+ <!DOCTYPE html>
+ <html>
+-<head>
+-<title>Error</title>
+-<style>
+-    body {
+-        width: 35em;
++  <head>
++    <title>Internal Server Error (50x)</title>
++    <style>
++      body {
++        width: 60em;
+         margin: 0 auto;
+-        font-family: Tahoma, Verdana, Arial, sans-serif;
+-    }
+-</style>
+-</head>
+-<body>
+-<h1>An error occurred.</h1>
+-<p>Sorry, the page you are looking for is currently unavailable.<br/>
+-Please try again later.</p>
+-<p>If you are the system administrator of this resource then you should check
+-the <a href="http://nginx.org/r/error_log">error log</a> for details.</p>
+-<p><em>Faithfully yours, nginx.</em></p>
+-</body>
++        font-family: "IntelClear-Light","ClearSans-Light",Helvetica,"Helvetica Neue",verdana,sans-serif;
++        font-weight: normal;
++        font-style: normal;
++      }
++      h1 {
++        color: rgb(175, 178, 182);
++      }
++    </style>
++  </head>
++  <body>
++    <h1>An error occurred.</h1>
++    <p>Sorry, the page you are looking for is currently unavailable.<br/>
++    Please try again later.</p>
++    <p>If you are the system administrator of this resource then you should check
++    the error_log for details.</p>
++    <hr />
++  </body>
+ </html>
+diff --git a/html/index.html b/html/index.html
+index 2ca3b95..715f340 100644
+--- a/html/index.html
++++ b/html/index.html
+@@ -1,25 +1,28 @@
+ <!DOCTYPE html>
+ <html>
+-<head>
+-<title>Welcome to nginx!</title>
+-<style>
+-    body {
+-        width: 35em;
++  <head>
++    <title>Welcome!</title>
++    <style>
++      body {
++        width: 60em;
+         margin: 0 auto;
+-        font-family: Tahoma, Verdana, Arial, sans-serif;
+-    }
+-</style>
+-</head>
+-<body>
+-<h1>Welcome to nginx!</h1>
+-<p>If you see this page, the nginx web server is successfully installed and
+-working. Further configuration is required.</p>
+-
+-<p>For online documentation and support please refer to
+-<a href="http://nginx.org/">nginx.org</a>.<br/>
+-Commercial support is available at
+-<a href="http://nginx.com/">nginx.com</a>.</p>
+-
+-<p><em>Thank you for using nginx.</em></p>
+-</body>
++        font-family: "IntelClear-Light","ClearSans-Light",Helvetica,"Helvetica Neue",verdana,sans-serif;
++        font-weight: normal;
++        font-style: normal;
++      }
++      h1 {
++        color: rgb(175, 178, 182);
++      }
++    </style>
++  </head>
++  <body>
++    <h1>This web server is operational.</h1>
++    <p>If you see this web page, the web server is successfully installed and
++    active.</p>
++    <p>The web server may need additiona configuration. Check the manual
++    pages and the online documentation to see what is needed.</p>
++    <p>The file with this content can be safely removed and replaced with
++    your own content.</p>
++    <hr />
++  </body>
+ </html>
 -- 
-2.12.2
+2.14.2
 

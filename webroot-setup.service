@@ -6,6 +6,7 @@ ConditionPathExists=!/var/www/html
 [Service]
 Type=oneshot
 ExecStartPre=/usr/bin/mkdir -p /var/www/html
+ExecStartPre=/usr/bin/cp -r /usr/share/httpd/icons /usr/share/httpd/error /usr/share/httpd/cgi-bin /var/www/
 ExecStart=/usr/bin/cp /usr/share/nginx/html/index.html /usr/share/nginx/html/50x.html /var/www/html/
 
 [Install]

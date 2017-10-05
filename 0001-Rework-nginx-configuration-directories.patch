@@ -341,7 +341,7 @@ index 2ca3b95..715f340 100644
 +    <h1>This web server is operational.</h1>
 +    <p>If you see this web page, the web server is successfully installed and
 +    active.</p>
-+    <p>The web server may need additiona configuration. Check the manual
++    <p>The web server may need additional configuration. Check the manual
 +    pages and the online documentation to see what is needed.</p>
 +    <p>The file with this content can be safely removed and replaced with
 +    your own content.</p>

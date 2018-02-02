@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.12.2
-Release  : 58
+Release  : 59
 URL      : https://nginx.org/download/nginx-1.12.2.tar.gz
 Source0  : https://nginx.org/download/nginx-1.12.2.tar.gz
 Source1  : nginx.service

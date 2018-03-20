@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.12.2
-Release  : 59
+Release  : 60
 URL      : https://nginx.org/download/nginx-1.12.2.tar.gz
 Source0  : https://nginx.org/download/nginx-1.12.2.tar.gz
 Source1  : nginx.service
@@ -64,7 +64,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1508254931
+export SOURCE_DATE_EPOCH=1521568581
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -87,10 +87,10 @@ export SOURCE_DATE_EPOCH=1508254931
 --with-http_v2_module \
 --with-poll_module \
 --with-select_module
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1508254931
+export SOURCE_DATE_EPOCH=1521568581
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -104,6 +104,8 @@ install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
 mkdir -p %{buildroot}/usr/share/nginx/html
 mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/
+mkdir -p %{buildroot}/usr/share/clr-service-restart
+ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-restart/nginx.service
 ## make_install_append end
 
 %files
@@ -121,6 +123,7 @@ mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/clr-service-restart/nginx.service
 /usr/share/nginx/conf/fastcgi.conf
 /usr/share/nginx/conf/fastcgi_params
 /usr/share/nginx/conf/koi-utf

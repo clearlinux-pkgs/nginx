@@ -11,6 +11,7 @@ Configure miss: SO_ACCEPTFILTER
 Configure miss: SO_BINDANY 
 Configure miss: IP_BINDANY 
 Configure miss: IP_RECVDSTADDR 
+Configure miss: IP_SENDSRCADDR 
 Configure miss: kqueue AIO support 
 Configure miss: setproctitle() 
 Configure miss: POSIX semaphores 

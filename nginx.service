@@ -10,6 +10,7 @@ Type=forking
 PIDFile=/run/nginx.pid
 PrivateDevices=yes
 
+ExecStartPre=/usr/bin/cp -n /usr/share/nginx/html/index.html /usr/share/nginx/html/50x.html /var/www/html/
 ExecStartPre=/usr/bin/nginx -t
 ExecStart=/usr/bin/nginx
 ExecReload=/usr/bin/nginx -s reload

@@ -6,12 +6,11 @@
 #
 Name     : nginx
 Version  : 1.14.0
-Release  : 62
+Release  : 63
 URL      : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source0  : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source1  : nginx.service
 Source2  : nginx.tmpfiles
-Source3  : webroot-setup.service
 Source99 : https://nginx.org/download/nginx-1.14.0.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -19,6 +18,8 @@ License  : BSD-2-Clause
 Requires: nginx-bin
 Requires: nginx-config
 Requires: nginx-data
+Requires: nginx-license
+Requires: httpd-webroot
 BuildRequires : openssl-dev
 BuildRequires : pcre-dev
 BuildRequires : zlib-dev
@@ -33,6 +34,7 @@ Summary: bin components for the nginx package.
 Group: Binaries
 Requires: nginx-data
 Requires: nginx-config
+Requires: nginx-license
 
 %description bin
 bin components for the nginx package.
@@ -54,6 +56,14 @@ Group: Data
 data components for the nginx package.
 
 
+%package license
+Summary: license components for the nginx package.
+Group: Default
+
+%description license
+license components for the nginx package.
+
+
 %prep
 %setup -q -n nginx-1.14.0
 %patch1 -p1
@@ -64,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1523987259
+export SOURCE_DATE_EPOCH=1530900835
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -90,12 +100,13 @@ export SOURCE_DATE_EPOCH=1523987259
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1523987259
+export SOURCE_DATE_EPOCH=1530900835
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/nginx
+cp LICENSE %{buildroot}/usr/share/doc/nginx/LICENSE
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx.service
-install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/systemd/system/webroot-setup.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
@@ -118,7 +129,6 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 %files config
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/nginx.service
-/usr/lib/systemd/system/webroot-setup.service
 /usr/lib/tmpfiles.d/nginx.conf
 
 %files data
@@ -137,3 +147,7 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 /usr/share/nginx/conf/win-utf
 /usr/share/nginx/html/50x.html
 /usr/share/nginx/html/index.html
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/nginx/LICENSE

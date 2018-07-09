@@ -6,11 +6,12 @@
 #
 Name     : nginx
 Version  : 1.14.0
-Release  : 64
+Release  : 65
 URL      : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source0  : https://nginx.org/download/nginx-1.14.0.tar.gz
-Source1  : nginx.service
-Source2  : nginx.tmpfiles
+Source1  : nginx-setup.service
+Source2  : nginx.service
+Source3  : nginx.tmpfiles
 Source99 : https://nginx.org/download/nginx-1.14.0.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -19,7 +20,6 @@ Requires: nginx-bin
 Requires: nginx-config
 Requires: nginx-data
 Requires: nginx-license
-Requires: httpd-webroot
 BuildRequires : openssl-dev
 BuildRequires : pcre-dev
 BuildRequires : zlib-dev
@@ -74,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530900835
+export SOURCE_DATE_EPOCH=1531170163
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -100,15 +100,16 @@ export SOURCE_DATE_EPOCH=1530900835
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1530900835
+export SOURCE_DATE_EPOCH=1531170163
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/nginx
 cp LICENSE %{buildroot}/usr/share/doc/nginx/LICENSE
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
-install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx.service
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/nginx.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
-install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
+install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## make_install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
@@ -128,6 +129,7 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 
 %files config
 %defattr(-,root,root,-)
+/usr/lib/systemd/system/nginx-setup.service
 /usr/lib/systemd/system/nginx.service
 /usr/lib/tmpfiles.d/nginx.conf
 

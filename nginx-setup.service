@@ -1,0 +1,13 @@
+[Unit]                                                                                                                                                                                                             
+Description=Initialize the HTTP web document root (/var/www/html)
+After=syslog.target
+ConditionPathExists=!/var/www/html
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/mkdir -p /var/www/html
+ExecStart=/usr/bin/cp /usr/share/nginx/html/index.html /usr/share/nginx/html/50x.html /var/www/html/
+
+[Install]
+WantedBy=multi-user.target
+

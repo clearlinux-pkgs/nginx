@@ -3,14 +3,13 @@ Description=A high performance web server and a reverse proxy server
 After=network-online.target
 Wants=network-online.target
 After=webroot-setup.service
-Requires=webroot-setup.service
+Requires=nginx-setup.service
 
 [Service]
 Type=forking
 PIDFile=/run/nginx.pid
 PrivateDevices=yes
 
-ExecStartPre=/usr/bin/cp -n /usr/share/nginx/html/index.html /usr/share/nginx/html/50x.html /var/www/html/
 ExecStartPre=/usr/bin/nginx -t
 ExecStart=/usr/bin/nginx
 ExecReload=/usr/bin/nginx -s reload

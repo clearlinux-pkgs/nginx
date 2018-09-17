@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.14.0
-Release  : 65
+Release  : 66
 URL      : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source0  : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source1  : nginx-setup.service
@@ -20,6 +20,7 @@ Requires: nginx-bin
 Requires: nginx-config
 Requires: nginx-data
 Requires: nginx-license
+BuildRequires : buildreq-cpan
 BuildRequires : openssl-dev
 BuildRequires : pcre-dev
 BuildRequires : zlib-dev
@@ -74,7 +75,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531170163
+export SOURCE_DATE_EPOCH=1537203687
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -96,11 +97,13 @@ export SOURCE_DATE_EPOCH=1531170163
 --with-http_ssl_module \
 --with-http_v2_module \
 --with-poll_module \
---with-select_module
+--with-select_module \
+--with-stream=dynamic \
+--with-stream_ssl_module
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1531170163
+export SOURCE_DATE_EPOCH=1537203687
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/nginx
 cp LICENSE %{buildroot}/usr/share/doc/nginx/LICENSE
@@ -110,7 +113,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.servi
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/nginx.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
-## make_install_append content
+## install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
@@ -118,10 +121,11 @@ mkdir -p %{buildroot}/usr/share/nginx/html
 mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/
 mkdir -p %{buildroot}/usr/share/clr-service-restart
 ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-restart/nginx.service
-## make_install_append end
+## install_append end
 
 %files
 %defattr(-,root,root,-)
+/var/www/modules/ngx_stream_module.so
 
 %files bin
 %defattr(-,root,root,-)

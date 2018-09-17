@@ -20,3 +20,5 @@
 --with-http_v2_module
 --with-poll_module
 --with-select_module
+--with-stream=dynamic   
+--with-stream_ssl_module 

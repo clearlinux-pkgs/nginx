@@ -3,6 +3,7 @@
 --sbin-path=/usr/bin/nginx
 --pid-path=/run/nginx.pid
 --lock-path=/run/lock/nginx.lock
+--modules-path=/usr/lib64/nginx
 --http-log-path=syslog:server=unix:/dev/log
 --http-client-body-temp-path=/var/lib/nginx/client-body
 --http-fastcgi-temp-path=/var/lib/nginx/fastcgi
@@ -20,5 +21,5 @@
 --with-http_v2_module
 --with-poll_module
 --with-select_module
---with-stream=dynamic   
---with-stream_ssl_module 
+--with-stream=dynamic
+--with-stream_ssl_module

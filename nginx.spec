@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.14.0
-Release  : 66
+Release  : 67
 URL      : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source0  : https://nginx.org/download/nginx-1.14.0.tar.gz
 Source1  : nginx-setup.service
@@ -18,6 +18,7 @@ Group    : Development/Tools
 License  : BSD-2-Clause
 Requires: nginx-bin
 Requires: nginx-config
+Requires: nginx-lib
 Requires: nginx-data
 Requires: nginx-license
 BuildRequires : buildreq-cpan
@@ -33,9 +34,9 @@ Documentation is available at http://nginx.org
 %package bin
 Summary: bin components for the nginx package.
 Group: Binaries
-Requires: nginx-data
-Requires: nginx-config
-Requires: nginx-license
+Requires: nginx-data = %{version}-%{release}
+Requires: nginx-config = %{version}-%{release}
+Requires: nginx-license = %{version}-%{release}
 
 %description bin
 bin components for the nginx package.
@@ -57,6 +58,16 @@ Group: Data
 data components for the nginx package.
 
 
+%package lib
+Summary: lib components for the nginx package.
+Group: Libraries
+Requires: nginx-data = %{version}-%{release}
+Requires: nginx-license = %{version}-%{release}
+
+%description lib
+lib components for the nginx package.
+
+
 %package license
 Summary: license components for the nginx package.
 Group: Default
@@ -75,12 +86,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537203687
+export SOURCE_DATE_EPOCH=1537207273
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
 --pid-path=/run/nginx.pid \
 --lock-path=/run/lock/nginx.lock \
+--modules-path=/usr/lib64/nginx \
 --http-log-path=syslog:server=unix:/dev/log \
 --http-client-body-temp-path=/var/lib/nginx/client-body \
 --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
@@ -103,7 +115,7 @@ export SOURCE_DATE_EPOCH=1537203687
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1537203687
+export SOURCE_DATE_EPOCH=1537207273
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/nginx
 cp LICENSE %{buildroot}/usr/share/doc/nginx/LICENSE
@@ -125,7 +137,6 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 
 %files
 %defattr(-,root,root,-)
-/var/www/modules/ngx_stream_module.so
 
 %files bin
 %defattr(-,root,root,-)
@@ -153,6 +164,10 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 /usr/share/nginx/conf/win-utf
 /usr/share/nginx/html/50x.html
 /usr/share/nginx/html/index.html
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/nginx/ngx_stream_module.so
 
 %files license
 %defattr(-,root,root,-)

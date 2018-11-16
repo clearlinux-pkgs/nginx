@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.14.1
-Release  : 69
+Release  : 70
 URL      : https://nginx.org/download/nginx-1.14.1.tar.gz
 Source0  : https://nginx.org/download/nginx-1.14.1.tar.gz
 Source1  : nginx-setup.service
@@ -96,7 +96,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541528772
+export SOURCE_DATE_EPOCH=1542406678
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -125,7 +125,7 @@ export SOURCE_DATE_EPOCH=1541528772
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1541528772
+export SOURCE_DATE_EPOCH=1542406678
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
 cp LICENSE %{buildroot}/usr/share/package-licenses/nginx/LICENSE

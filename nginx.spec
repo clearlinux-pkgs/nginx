@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.14.1
-Release  : 70
-URL      : https://nginx.org/download/nginx-1.14.1.tar.gz
-Source0  : https://nginx.org/download/nginx-1.14.1.tar.gz
+Version  : 1.14.2
+Release  : 71
+URL      : https://nginx.org/download/nginx-1.14.2.tar.gz
+Source0  : https://nginx.org/download/nginx-1.14.2.tar.gz
 Source1  : nginx-setup.service
 Source2  : nginx.service
 Source3  : nginx.tmpfiles
-Source99 : https://nginx.org/download/nginx-1.14.1.tar.gz.asc
+Source99 : https://nginx.org/download/nginx-1.14.2.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -87,7 +87,7 @@ services components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.14.1
+%setup -q -n nginx-1.14.2
 %patch1 -p1
 %patch2 -p1
 
@@ -96,7 +96,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542406678
+export SOURCE_DATE_EPOCH=1543997605
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -125,7 +125,7 @@ export SOURCE_DATE_EPOCH=1542406678
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1542406678
+export SOURCE_DATE_EPOCH=1543997605
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
 cp LICENSE %{buildroot}/usr/share/package-licenses/nginx/LICENSE

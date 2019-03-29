@@ -1,2 +1,3 @@
 build.patch
 0001-Rework-nginx-configuration-directories.patch
+0002-Enable-HTTP-2-by-default.patch

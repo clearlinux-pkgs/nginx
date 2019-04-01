@@ -1,9 +1,11 @@
-From 47691f2e9b479c0bd5e781b403c54288c40fadb8 Mon Sep 17 00:00:00 2001
+From e9f02749e04b7d3d1812adf1e7f18d20c6525d8a Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Fri, 29 Mar 2019 10:02:35 -0700
 Subject: [PATCH] Enable HTTP/2 by default.
 
 Adds a `nohttp2` option to explicitly disable HTTP/2 support.
+
+This is only done for SSL, not for non-SSL listening servers.
 ---
  contrib/vim/syntax/nginx.vim    | 2 +-
  src/http/ngx_http_core_module.c | 9 ++++++++-
@@ -23,19 +25,19 @@ index 075b19a..8cff3e0 100644
      \ ipv6only reuseport so_keepalive
      \ nextgroup=@ngxListenParams skipwhite skipempty
 diff --git a/src/http/ngx_http_core_module.c b/src/http/ngx_http_core_module.c
-index 6b318dd..c7b5c72 100644
+index 6b318dd..3049d32 100644
 --- a/src/http/ngx_http_core_module.c
 +++ b/src/http/ngx_http_core_module.c
-@@ -3773,6 +3773,9 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
-     lsopt.backlog = NGX_LISTEN_BACKLOG;
-     lsopt.rcvbuf = -1;
-     lsopt.sndbuf = -1;
+@@ -3964,6 +3964,9 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+         if (ngx_strcmp(value[n].data, "ssl") == 0) {
+ #if (NGX_HTTP_SSL)
+             lsopt.ssl = 1;
 +#if (NGX_HTTP_V2)
-+    lsopt.http2 = 1;
++            lsopt.http2 = 1;
 +#endif
- #if (NGX_HAVE_SETFIB)
-     lsopt.setfib = -1;
- #endif
+             continue;
+ #else
+             ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
 @@ -3975,7 +3978,6 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
  
          if (ngx_strcmp(value[n].data, "http2") == 0) {

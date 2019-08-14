@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.14.2
-Release  : 74
-URL      : https://nginx.org/download/nginx-1.14.2.tar.gz
-Source0  : https://nginx.org/download/nginx-1.14.2.tar.gz
+Version  : 1.16.1
+Release  : 76
+URL      : https://nginx.org/download/nginx-1.16.1.tar.gz
+Source0  : https://nginx.org/download/nginx-1.16.1.tar.gz
 Source1  : nginx-setup.service
 Source2  : nginx.service
 Source3  : nginx.tmpfiles
-Source99 : https://nginx.org/download/nginx-1.14.2.tar.gz.asc
+Source4 : https://nginx.org/download/nginx-1.16.1.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -88,7 +88,7 @@ services components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.14.2
+%setup -q -n nginx-1.16.1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -97,9 +97,13 @@ services components for the nginx package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1554138503
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1565805651
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -128,7 +132,7 @@ export LDFLAGS="${LDFLAGS} -fno-lto"
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1554138503
+export SOURCE_DATE_EPOCH=1565805651
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
 cp LICENSE %{buildroot}/usr/share/package-licenses/nginx/LICENSE
@@ -138,12 +142,16 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.servi
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/nginx.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
+## Remove excluded files
+rm -f %{buildroot}/var/www/html/50x.html
+rm -f %{buildroot}/var/www/html/index.html
 ## install_append content
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
 mkdir -p %{buildroot}/usr/share/nginx/html
-mv %{buildroot}/var/www/html/* %{buildroot}/usr/share/nginx/html/
+install -m0644 html/50x.html %{buildroot}/usr/share/nginx/html/
+install -m0644 html/index.html %{buildroot}/usr/share/nginx/html/
 mkdir -p %{buildroot}/usr/share/clr-service-restart
 ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-restart/nginx.service
 ## install_append end

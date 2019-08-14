@@ -245,12 +245,10 @@ index 0000000..bece759
 +    }
 +}
 diff --git a/html/50x.html b/html/50x.html
-index f60f5e7..b0c2489 100644
+index 9071e0a..0382225 100644
 --- a/html/50x.html
 +++ b/html/50x.html
-@@ -1,21 +1,28 @@
-+</body>
-+</html>
+@@ -1,21 +1,26 @@
  <!DOCTYPE html>
  <html>
 -<head>
@@ -273,7 +271,7 @@ index f60f5e7..b0c2489 100644
 -<p>Sorry, the page you are looking for is currently unavailable.<br/>
 -Please try again later.</p>
 -<p>If you are the system administrator of this resource then you should check
--the <a href="http://nginx.org/r/error_log">error log</a> for details.</p>
+-the error log for details.</p>
 -<p><em>Faithfully yours, nginx.</em></p>
 -</body>
 +        font-family: "IntelClear-Light","ClearSans-Light",Helvetica,"Helvetica Neue",verdana,sans-serif;

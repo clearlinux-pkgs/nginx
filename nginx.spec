@@ -6,13 +6,13 @@
 #
 Name     : nginx
 Version  : 1.16.1
-Release  : 76
+Release  : 77
 URL      : https://nginx.org/download/nginx-1.16.1.tar.gz
 Source0  : https://nginx.org/download/nginx-1.16.1.tar.gz
 Source1  : nginx-setup.service
 Source2  : nginx.service
 Source3  : nginx.tmpfiles
-Source4 : https://nginx.org/download/nginx-1.16.1.tar.gz.asc
+Source4  : https://nginx.org/download/nginx-1.16.1.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -29,6 +29,7 @@ BuildRequires : zlib-dev
 Patch1: build.patch
 Patch2: 0001-Rework-nginx-configuration-directories.patch
 Patch3: 0002-Enable-HTTP-2-by-default.patch
+Patch4: CVE-2019-20372.patch
 
 %description
 Documentation is available at http://nginx.org
@@ -89,21 +90,23 @@ services components for the nginx package.
 
 %prep
 %setup -q -n nginx-1.16.1
+cd %{_builddir}/nginx-1.16.1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565805651
+export SOURCE_DATE_EPOCH=1579125529
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -132,10 +135,10 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1565805651
+export SOURCE_DATE_EPOCH=1579125529
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
-cp LICENSE %{buildroot}/usr/share/package-licenses/nginx/LICENSE
+cp %{_builddir}/nginx-1.16.1/LICENSE %{buildroot}/usr/share/package-licenses/nginx/6e98d8b31beea6d51da2f8931062669945bd8aa4
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.service
@@ -146,12 +149,16 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 rm -f %{buildroot}/var/www/html/50x.html
 rm -f %{buildroot}/var/www/html/index.html
 ## install_append content
+# these are just copies
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
+# template configuration
 install -m0644 conf/server.conf.example %{buildroot}/usr/share/nginx/conf/
 install -m0644 conf/nginx.conf.example %{buildroot}/usr/share/nginx/conf/
+# move these to a "template" location
 mkdir -p %{buildroot}/usr/share/nginx/html
 install -m0644 html/50x.html %{buildroot}/usr/share/nginx/html/
 install -m0644 html/index.html %{buildroot}/usr/share/nginx/html/
+
 mkdir -p %{buildroot}/usr/share/clr-service-restart
 ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-restart/nginx.service
 ## install_append end
@@ -190,7 +197,7 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/nginx/LICENSE
+/usr/share/package-licenses/nginx/6e98d8b31beea6d51da2f8931062669945bd8aa4
 
 %files services
 %defattr(-,root,root,-)

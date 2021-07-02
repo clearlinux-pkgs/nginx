@@ -1,4 +1,4 @@
-From e9f02749e04b7d3d1812adf1e7f18d20c6525d8a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Fri, 29 Mar 2019 10:02:35 -0700
 Subject: [PATCH] Enable HTTP/2 by default.
@@ -12,7 +12,7 @@ This is only done for SSL, not for non-SSL listening servers.
  2 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/contrib/vim/syntax/nginx.vim b/contrib/vim/syntax/nginx.vim
-index 075b19a..8cff3e0 100644
+index 6bee7a2..09293ad 100644
 --- a/contrib/vim/syntax/nginx.vim
 +++ b/contrib/vim/syntax/nginx.vim
 @@ -62,7 +62,7 @@ syn match ngxListenComment '#.*$'
@@ -25,10 +25,10 @@ index 075b19a..8cff3e0 100644
      \ ipv6only reuseport so_keepalive
      \ nextgroup=@ngxListenParams skipwhite skipempty
 diff --git a/src/http/ngx_http_core_module.c b/src/http/ngx_http_core_module.c
-index 6b318dd..3049d32 100644
+index cb49ef7..9c5743c 100644
 --- a/src/http/ngx_http_core_module.c
 +++ b/src/http/ngx_http_core_module.c
-@@ -3964,6 +3964,9 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+@@ -3974,6 +3974,9 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
          if (ngx_strcmp(value[n].data, "ssl") == 0) {
  #if (NGX_HTTP_SSL)
              lsopt.ssl = 1;
@@ -38,7 +38,7 @@ index 6b318dd..3049d32 100644
              continue;
  #else
              ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
-@@ -3975,7 +3978,6 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+@@ -3985,7 +3988,6 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
  
          if (ngx_strcmp(value[n].data, "http2") == 0) {
  #if (NGX_HTTP_V2)
@@ -46,7 +46,7 @@ index 6b318dd..3049d32 100644
              continue;
  #else
              ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
-@@ -3985,6 +3987,11 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+@@ -3995,6 +3997,11 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
  #endif
          }
  
@@ -58,6 +58,3 @@ index 6b318dd..3049d32 100644
          if (ngx_strcmp(value[n].data, "spdy") == 0) {
              ngx_conf_log_error(NGX_LOG_WARN, cf, 0,
                                 "invalid parameter \"spdy\": "
--- 
-2.21.0
-

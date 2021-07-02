@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.16.1
-Release  : 78
+Release  : 79
 URL      : https://nginx.org/download/nginx-1.16.1.tar.gz
 Source0  : https://nginx.org/download/nginx-1.16.1.tar.gz
 Source1  : nginx-setup.service
@@ -30,6 +30,7 @@ Patch1: build.patch
 Patch2: 0001-Rework-nginx-configuration-directories.patch
 Patch3: 0002-Enable-HTTP-2-by-default.patch
 Patch4: CVE-2019-20372.patch
+Patch5: CVE-2021-23017.patch
 
 %description
 Documentation is available at http://nginx.org
@@ -95,17 +96,18 @@ cd %{_builddir}/nginx-1.16.1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579125529
+export SOURCE_DATE_EPOCH=1625204413
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
@@ -135,7 +137,7 @@ export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-re
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1579125529
+export SOURCE_DATE_EPOCH=1625204413
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
 cp %{_builddir}/nginx-1.16.1/LICENSE %{buildroot}/usr/share/package-licenses/nginx/6e98d8b31beea6d51da2f8931062669945bd8aa4

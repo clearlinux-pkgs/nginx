@@ -1,4 +1,4 @@
-From 21f68ede41d5959bedb94e66fdd378fb053c5ac0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: William Douglas <william.douglas@intel.com>
 Date: Wed, 29 Mar 2017 22:40:11 +0000
 Subject: [PATCH] Rework nginx configuration directories
@@ -16,12 +16,12 @@ template webroot files using a one-time setup service. We make them
 generic so they can be used for all sorts of http servers that are
 in the same bundle.
 ---
- conf/nginx.conf          | 118 +----------------------------------------------
- conf/nginx.conf.example  |  19 ++++++++
- conf/server.conf.example |  65 ++++++++++++++++++++++++++
- html/50x.html            |  41 +++++++++-------
- html/index.html          |  45 +++++++++---------
- 5 files changed, 133 insertions(+), 155 deletions(-)
+ conf/nginx.conf          | 118 +--------------------------------------
+ conf/nginx.conf.example  |  19 +++++++
+ conf/server.conf.example |  65 +++++++++++++++++++++
+ html/50x.html            |  39 +++++++------
+ html/index.html          |  45 ++++++++-------
+ 5 files changed, 131 insertions(+), 155 deletions(-)
  create mode 100644 conf/nginx.conf.example
  create mode 100644 conf/server.conf.example
 
@@ -293,7 +293,7 @@ index 9071e0a..0382225 100644
 +  </body>
  </html>
 diff --git a/html/index.html b/html/index.html
-index 2ca3b95..715f340 100644
+index 2ca3b95..2613958 100644
 --- a/html/index.html
 +++ b/html/index.html
 @@ -1,25 +1,28 @@
@@ -346,6 +346,3 @@ index 2ca3b95..715f340 100644
 +    <hr />
 +  </body>
  </html>
--- 
-2.14.2
-

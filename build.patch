@@ -1,8 +1,8 @@
-Index: nginx-1.9.5/auto/options
-===================================================================
---- nginx-1.9.5.orig/auto/options
-+++ nginx-1.9.5/auto/options
-@@ -337,7 +337,6 @@ use the \"--with-mail_ssl_module\" optio
+diff --git a/auto/options b/auto/options
+index d8b421b..e3d8e4f 100644
+--- a/auto/options
++++ b/auto/options
+@@ -398,7 +398,6 @@ $0: warning: the \"--with-sha1-asm\" option is deprecated"
  
          *)
              echo "$0: error: invalid option \"$option\""

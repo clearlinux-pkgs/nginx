@@ -4,14 +4,12 @@ Configure miss: F_READAHEAD
 Configure miss: IP_BINDANY 
 Configure miss: IP_RECVDSTADDR 
 Configure miss: IP_SENDSRCADDR 
-Configure miss: POSIX semaphores 
 Configure miss: SO_ACCEPTFILTER 
 Configure miss: SO_BINDANY 
 Configure miss: SO_SETFIB 
 Configure miss: _sys_nerr 
 Configure miss: crypt() 
 Configure miss: directio() 
-Configure miss: dlopen() 
 Configure miss: kqueue 
 Configure miss: kqueue AIO support 
 Configure miss: setproctitle() 

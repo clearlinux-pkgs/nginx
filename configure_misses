@@ -7,7 +7,6 @@ Configure miss: IP_SENDSRCADDR
 Configure miss: SO_ACCEPTFILTER 
 Configure miss: SO_BINDANY 
 Configure miss: SO_SETFIB 
-Configure miss: _sys_nerr 
 Configure miss: crypt() 
 Configure miss: directio() 
 Configure miss: kqueue 
@@ -15,4 +14,3 @@ Configure miss: kqueue AIO support
 Configure miss: setproctitle() 
 Configure miss: struct dirent.d_namlen 
 Configure miss: sys/filio.h 
-Configure miss: sys_nerr 

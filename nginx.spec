@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x520A9993A1C052F8 (mdounin@mdounin.ru)
 #
 Name     : nginx
-Version  : 1.16.1
-Release  : 81
-URL      : https://nginx.org/download/nginx-1.16.1.tar.gz
-Source0  : https://nginx.org/download/nginx-1.16.1.tar.gz
+Version  : 1.20.2
+Release  : 82
+URL      : https://nginx.org/download/nginx-1.20.2.tar.gz
+Source0  : https://nginx.org/download/nginx-1.20.2.tar.gz
 Source1  : nginx-setup.service
 Source2  : nginx.service
 Source3  : nginx.tmpfiles
-Source4  : https://nginx.org/download/nginx-1.16.1.tar.gz.asc
+Source4  : https://nginx.org/download/nginx-1.20.2.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -28,9 +28,6 @@ BuildRequires : pcre-dev
 BuildRequires : zlib-dev
 Patch1: build.patch
 Patch2: 0001-Rework-nginx-configuration-directories.patch
-Patch3: 0002-Enable-HTTP-2-by-default.patch
-Patch4: CVE-2019-20372.patch
-Patch5: CVE-2021-23017.patch
 
 %description
 Documentation is available at http://nginx.org
@@ -90,20 +87,17 @@ services components for the nginx package.
 
 
 %prep
-%setup -q -n nginx-1.16.1
-cd %{_builddir}/nginx-1.16.1
+%setup -q -n nginx-1.20.2
+cd %{_builddir}/nginx-1.20.2
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633107074
+export SOURCE_DATE_EPOCH=1647127126
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
@@ -137,10 +131,10 @@ export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-re
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1633107074
+export SOURCE_DATE_EPOCH=1647127126
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
-cp %{_builddir}/nginx-1.16.1/LICENSE %{buildroot}/usr/share/package-licenses/nginx/6e98d8b31beea6d51da2f8931062669945bd8aa4
+cp %{_builddir}/nginx-1.20.2/LICENSE %{buildroot}/usr/share/package-licenses/nginx/ae6e4fc32b0a44181fdd221d07eadf66679f35fb
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.service
@@ -148,8 +142,8 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/nginx.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/nginx.conf
 ## Remove excluded files
-rm -f %{buildroot}/var/www/html/50x.html
-rm -f %{buildroot}/var/www/html/index.html
+rm -f %{buildroot}*/var/www/html/50x.html
+rm -f %{buildroot}*/var/www/html/index.html
 ## install_append content
 # these are just copies
 rm -f %{buildroot}/usr/share/nginx/conf/*.default
@@ -199,7 +193,7 @@ ln -sf /usr/lib/systemd/system/nginx.service %{buildroot}/usr/share/clr-service-
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/nginx/6e98d8b31beea6d51da2f8931062669945bd8aa4
+/usr/share/package-licenses/nginx/ae6e4fc32b0a44181fdd221d07eadf66679f35fb
 
 %files services
 %defattr(-,root,root,-)

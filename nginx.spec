@@ -6,7 +6,7 @@
 #
 Name     : nginx
 Version  : 1.20.2
-Release  : 84
+Release  : 85
 URL      : https://nginx.org/download/nginx-1.20.2.tar.gz
 Source0  : https://nginx.org/download/nginx-1.20.2.tar.gz
 Source1  : nginx-setup.service
@@ -97,12 +97,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1647127126
+export SOURCE_DATE_EPOCH=1664928224
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --prefix=/var/www \
 --conf-path=/usr/share/nginx/conf/nginx.conf \
 --sbin-path=/usr/bin/nginx \
@@ -131,10 +131,10 @@ export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-re
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1647127126
+export SOURCE_DATE_EPOCH=1664928224
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nginx
-cp %{_builddir}/nginx-1.20.2/LICENSE %{buildroot}/usr/share/package-licenses/nginx/ae6e4fc32b0a44181fdd221d07eadf66679f35fb
+cp %{_builddir}/nginx-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/nginx/ae6e4fc32b0a44181fdd221d07eadf66679f35fb || :
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/nginx-setup.service

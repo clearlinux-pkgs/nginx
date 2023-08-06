@@ -248,22 +248,15 @@ diff --git a/html/50x.html b/html/50x.html
 index 9071e0a..0382225 100644
 --- a/html/50x.html
 +++ b/html/50x.html
-@@ -1,21 +1,26 @@
+@@ -1,19 +1,26 @@
  <!DOCTYPE html>
  <html>
 -<head>
 -<title>Error</title>
 -<style>
--    body {
--        width: 35em;
-+  <head>
-+    <title>Internal Server Error (50x)</title>
-+    <style>
-+      body {
-+        width: 60em;
-         margin: 0 auto;
--        font-family: Tahoma, Verdana, Arial, sans-serif;
--    }
+-html { color-scheme: light dark; }
+-body { width: 35em; margin: 0 auto;
+-font-family: Tahoma, Verdana, Arial, sans-serif; }
 -</style>
 -</head>
 -<body>
@@ -274,6 +267,12 @@ index 9071e0a..0382225 100644
 -the error log for details.</p>
 -<p><em>Faithfully yours, nginx.</em></p>
 -</body>
++  <head>
++    <title>Internal Server Error (50x)</title>
++    <style>
++      body {
++        width: 60em;
++        margin: 0 auto;
 +        font-family: "IntelClear-Light","ClearSans-Light",Helvetica,"Helvetica Neue",verdana,sans-serif;
 +        font-weight: normal;
 +        font-style: normal;
@@ -296,22 +295,15 @@ diff --git a/html/index.html b/html/index.html
 index 2ca3b95..2613958 100644
 --- a/html/index.html
 +++ b/html/index.html
-@@ -1,25 +1,28 @@
+@@ -1,23 +1,28 @@
  <!DOCTYPE html>
  <html>
 -<head>
 -<title>Welcome to nginx!</title>
 -<style>
--    body {
--        width: 35em;
-+  <head>
-+    <title>Welcome!</title>
-+    <style>
-+      body {
-+        width: 60em;
-         margin: 0 auto;
--        font-family: Tahoma, Verdana, Arial, sans-serif;
--    }
+-html { color-scheme: light dark; }
+-body { width: 35em; margin: 0 auto;
+-font-family: Tahoma, Verdana, Arial, sans-serif; }
 -</style>
 -</head>
 -<body>
@@ -326,6 +318,12 @@ index 2ca3b95..2613958 100644
 -
 -<p><em>Thank you for using nginx.</em></p>
 -</body>
++  <head>
++    <title>Welcome!</title>
++    <style>
++      body {
++        width: 60em;
++        margin: 0 auto;
 +        font-family: "IntelClear-Light","ClearSans-Light",Helvetica,"Helvetica Neue",verdana,sans-serif;
 +        font-weight: normal;
 +        font-style: normal;

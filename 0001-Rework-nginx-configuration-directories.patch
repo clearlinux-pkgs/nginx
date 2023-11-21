@@ -248,22 +248,21 @@ diff --git a/html/50x.html b/html/50x.html
 index 9071e0a..0382225 100644
 --- a/html/50x.html
 +++ b/html/50x.html
-@@ -1,21 +1,26 @@
+@@ -1,19 +1,26 @@
  <!DOCTYPE html>
  <html>
 -<head>
 -<title>Error</title>
 -<style>
--    body {
--        width: 35em;
+-html { color-scheme: light dark; }
+-body { width: 35em; margin: 0 auto;
 +  <head>
 +    <title>Internal Server Error (50x)</title>
 +    <style>
 +      body {
 +        width: 60em;
-         margin: 0 auto;
--        font-family: Tahoma, Verdana, Arial, sans-serif;
--    }
++        margin: 0 auto;
+-font-family: Tahoma, Verdana, Arial, sans-serif; }
 -</style>
 -</head>
 -<body>
@@ -296,22 +295,21 @@ diff --git a/html/index.html b/html/index.html
 index 2ca3b95..2613958 100644
 --- a/html/index.html
 +++ b/html/index.html
-@@ -1,25 +1,28 @@
+@@ -1,23 +1,28 @@
  <!DOCTYPE html>
  <html>
 -<head>
 -<title>Welcome to nginx!</title>
 -<style>
--    body {
--        width: 35em;
+-html { color-scheme: light dark; }
+-body { width: 35em; margin: 0 auto;
 +  <head>
 +    <title>Welcome!</title>
 +    <style>
 +      body {
 +        width: 60em;
-         margin: 0 auto;
--        font-family: Tahoma, Verdana, Arial, sans-serif;
--    }
++        margin: 0 auto;
+-font-family: Tahoma, Verdana, Arial, sans-serif; }
 -</style>
 -</head>
 -<body>
